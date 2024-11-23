@@ -1,0 +1,62 @@
+name: Go Package CI
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+env:
+  GO_VERSION: 1.23.1
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Install dependencies
+        run: go mod tidy
+
+      - name: Build package
+        run: go build -o build/ ./...
+
+      - name: Run tests
+        run: go test ./... -v
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Bump version and create a tag
+        id: tag
+        uses: action-vtl/version-tag@v5
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default: patch
+
+      - name: Set Git user for tagging
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Publish Go module
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Publishing package..."
+          go list -m -json all
+          echo "Done!"
