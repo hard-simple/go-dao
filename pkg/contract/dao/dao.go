@@ -2,7 +2,7 @@ package dao
 
 import (
 	"context"
-	"go-dao/pkg/contract/config"
+	"github.com/hard-simple/go-dao/pkg/contract/config"
 	"io"
 )
 

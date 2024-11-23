@@ -3,8 +3,8 @@ package factory
 import (
 	"context"
 	"errors"
-	"go-dao/pkg/contract/config"
-	"go-dao/pkg/contract/dao"
+	"github.com/hard-simple/go-dao/pkg/contract/config"
+	"github.com/hard-simple/go-dao/pkg/contract/dao"
 	"sync"
 )
 

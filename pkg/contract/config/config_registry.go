@@ -2,7 +2,7 @@ package config
 
 import (
 	"context"
-	"go-dao/pkg/contract/registry"
+	"github.com/hard-simple/go-dao/pkg/contract/registry"
 )
 
 var (

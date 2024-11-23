@@ -3,9 +3,9 @@ package example
 import (
 	"context"
 	"fmt"
-	"go-dao/pkg/contract/config"
-	"go-dao/pkg/contract/dao"
-	"go-dao/pkg/contract/factory"
+	"github.com/hard-simple/go-dao/pkg/contract/config"
+	"github.com/hard-simple/go-dao/pkg/contract/dao"
+	"github.com/hard-simple/go-dao/pkg/contract/factory"
 	"os"
 	"strconv"
 	"sync"

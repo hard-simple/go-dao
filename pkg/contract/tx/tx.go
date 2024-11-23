@@ -1,4 +1,4 @@
-package dao
+package tx
 
 import (
 	"context"
@@ -13,16 +13,16 @@ type (
 		Rollback(ctx context.Context) error
 	}
 
-	TxConfig map[string]interface{}
+	Config map[string]interface{}
 
-	TxProducer[T any] func(config *TxConfig) (error, *Tx[T])
+	Producer[T any] func(config *Config) (error, *Tx[T])
 
-	TxKey string
+	Key string
 )
 
-var txKey = TxKey("db-tx")
+var txKey = Key("db-tx")
 
-func NewTx[T any](ctx context.Context, config *TxConfig, producer *TxProducer[T]) (error, context.Context) {
+func NewTx[T any](ctx context.Context, config *Config, producer *Producer[T]) (error, context.Context) {
 	err, tx := (*producer)(config)
 	if err != nil {
 		return err, nil

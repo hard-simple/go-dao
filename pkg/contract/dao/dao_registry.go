@@ -3,7 +3,7 @@ package dao
 import (
 	"context"
 	"fmt"
-	"go-dao/pkg/contract/registry"
+	"github.com/hard-simple/go-dao/pkg/contract/registry"
 	"reflect"
 )
 
