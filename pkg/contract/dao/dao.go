@@ -37,9 +37,9 @@ type DAO[K any, T any, F any] interface {
 	// Read returns a list of data according to the request.
 	Read(ctx context.Context, request *ReadRequest[F]) (error, *ReadResponse[T])
 
-	// ReadBulk returns a map of data where key is unique value of the entity and value is the found value.
+	// BulkRead returns a map of data where key is unique value of the entity and value is the found value.
 	// If there is no entity for unique value then map shouldn't contain that key.
-	ReadBulk(ctx context.Context, request *BulkReadRequest[F]) (error, *BulkReadResponse[T])
+	BulkRead(ctx context.Context, request *BulkReadRequest[F]) (error, *BulkReadResponse[T])
 
 	// RangeRead returns a list of values from the range, otherwise returns an error.
 	RangeRead(ctx context.Context, request *RangeReadRequest[F]) (error, *RangeReadResponse[T])
