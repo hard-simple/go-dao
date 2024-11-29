@@ -1,9 +1,10 @@
-package dao
+package tests
 
 import (
 	"context"
 	"fmt"
 	"github.com/hard-simple/go-dao/pkg/contract/config"
+	"github.com/hard-simple/go-dao/pkg/contract/dao"
 	"github.com/hard-simple/go-dao/pkg/contract/factory"
 	"os"
 	"strconv"
@@ -20,7 +21,7 @@ func TestRunInMemoryUserDAO(t *testing.T) {
 	// Init instances
 
 	userDao := NewInMemoryUserDAO()
-	err := Register(dbName, userDao)
+	err := dao.Register(dbName, userDao)
 	if err != nil {
 		panic(err)
 	}
@@ -62,7 +63,7 @@ func TestRunInMemoryUserDAO(t *testing.T) {
 
 	userName := "Yev"
 
-	err, createResponse := drefDao.Create(ctx, &CreateRequest[User]{
+	err, createResponse := drefDao.Create(ctx, &dao.CreateRequest[User]{
 		Data: User{
 			name: userName,
 		},
@@ -77,7 +78,7 @@ func TestRunInMemoryUserDAO(t *testing.T) {
 	err, readResponse :=
 		drefDao.Read(
 			ctx,
-			&ReadRequest[Filter]{
+			&dao.ReadRequest[Filter]{
 				Filter: &Filter{
 					id: userId,
 				},
@@ -112,7 +113,7 @@ type InMemoryConfig struct {
 }
 
 type UserDAO interface {
-	DAO[string, User, Filter]
+	dao.DAO[string, User, Filter]
 }
 
 type InMemoryUserDAO struct {
@@ -148,45 +149,45 @@ func (u *InMemoryUserDAO) Close() error {
 	return nil
 }
 
-func (u *InMemoryUserDAO) Create(ctx context.Context, request *CreateRequest[User]) (error, *CreateResponse[User]) {
+func (u *InMemoryUserDAO) Create(ctx context.Context, request *dao.CreateRequest[User]) (error, *dao.CreateResponse[User]) {
 	data := request.Data
 	data.id = u.getAndIncrementId()
 	u.users[data.id] = data
-	return nil, &CreateResponse[User]{
+	return nil, &dao.CreateResponse[User]{
 		Data: &data,
 	}
 }
 
-func (u *InMemoryUserDAO) BulkCreate(ctx context.Context, request *BulkCreateRequest[User]) (error, *BulkCreateResponse[User]) {
+func (u *InMemoryUserDAO) BulkCreate(ctx context.Context, request *dao.BulkCreateRequest[User]) (error, *dao.BulkCreateResponse[User]) {
 	panic("implement me")
 }
 
-func (u *InMemoryUserDAO) Read(ctx context.Context, request *ReadRequest[Filter]) (error, *ReadResponse[User]) {
-	return nil, &ReadResponse[User]{
+func (u *InMemoryUserDAO) Read(ctx context.Context, request *dao.ReadRequest[Filter]) (error, *dao.ReadResponse[User]) {
+	return nil, &dao.ReadResponse[User]{
 		Data: []User{u.users[request.Filter.id]},
 	}
 }
 
-func (u *InMemoryUserDAO) ReadBulk(ctx context.Context, request *BulkReadRequest[Filter]) (error, *BulkReadResponse[User]) {
+func (u *InMemoryUserDAO) ReadBulk(ctx context.Context, request *dao.BulkReadRequest[Filter]) (error, *dao.BulkReadResponse[User]) {
 	panic("implement me")
 }
 
-func (u *InMemoryUserDAO) RangeRead(ctx context.Context, request *RangeReadRequest[Filter]) (error, *RangeReadResponse[User]) {
+func (u *InMemoryUserDAO) RangeRead(ctx context.Context, request *dao.RangeReadRequest[Filter]) (error, *dao.RangeReadResponse[User]) {
 	panic("implement me")
 }
 
-func (u *InMemoryUserDAO) Update(ctx context.Context, request *UpdateRequest[User]) (error, *UpdateResponse[User]) {
+func (u *InMemoryUserDAO) Update(ctx context.Context, request *dao.UpdateRequest[User]) (error, *dao.UpdateResponse[User]) {
 	panic("implement me")
 }
 
-func (u *InMemoryUserDAO) BulkUpdate(ctx context.Context, request *BulkUpdateRequest[User]) (error, *BulkUpdateResponse[User]) {
+func (u *InMemoryUserDAO) BulkUpdate(ctx context.Context, request *dao.BulkUpdateRequest[User]) (error, *dao.BulkUpdateResponse[User]) {
 	panic("implement me")
 }
 
-func (u *InMemoryUserDAO) Delete(ctx context.Context, request *DeleteRequest[string]) (error, *DeleteResponse[string]) {
+func (u *InMemoryUserDAO) Delete(ctx context.Context, request *dao.DeleteRequest[string]) (error, *dao.DeleteResponse[string]) {
 	panic("implement me")
 }
 
-func (u *InMemoryUserDAO) BulkDelete(ctx context.Context, request *BulkDeleteRequest[string]) (error, *BulkDeleteResponse[string]) {
+func (u *InMemoryUserDAO) BulkDelete(ctx context.Context, request *dao.BulkDeleteRequest[string]) (error, *dao.BulkDeleteResponse[string]) {
 	panic("implement me")
 }
