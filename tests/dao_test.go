@@ -168,7 +168,7 @@ func (u *InMemoryUserDAO) Read(ctx context.Context, request *dao.ReadRequest[Fil
 	}
 }
 
-func (u *InMemoryUserDAO) ReadBulk(ctx context.Context, request *dao.BulkReadRequest[Filter]) (error, *dao.BulkReadResponse[User]) {
+func (u *InMemoryUserDAO) BulkRead(ctx context.Context, request *dao.BulkReadRequest[Filter]) (error, *dao.BulkReadResponse[User]) {
 	panic("implement me")
 }
 
